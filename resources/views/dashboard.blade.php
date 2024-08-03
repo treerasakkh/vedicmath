@@ -6,17 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-                <div>
-                    <a href="/vedics">
-                    เวทคณิต
-                    </a>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <x-dashboard-card class="bg-white" heading="เวทคณิต" title="แบบเติมคำตอบ" subtitle="พร้อมเฉลย" url="/vedics" />
+            <x-dashboard-card class="bg-white" heading="เวทคณิต" title="แบบวิธีทำ" subtitle="พร้อมเฉลย" url="/vedics/solution" />
         </div>
     </div>
 </x-app-layout>

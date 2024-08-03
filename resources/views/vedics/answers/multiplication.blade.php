@@ -1,4 +1,4 @@
-<x-book>
+<x-book title="การคูณ" :level-title="$levelTitle" :difficulty-title="$difficultyTitle">
     <x-page>
         <div class="text-center mt-8 mb-4 font-semibold">ข้อสอบแบบเติมคำตอบระดับชั้น {{ $levelTitle }} เรื่อง การคูณ ระดับ{{ $difficultyTitle }}</div>
         <div class="grid grid-cols-2 gap-8">

@@ -48,7 +48,7 @@ class Division extends AnswerAbstract
             $num1 = $this->randomByFixNumbers($this->minNum1, $this->maxNum1, $fixNum1);
             do {
                 $num2 = $this->randomByFixNumbers($this->minNum2, $this->maxNum2, $fixNum2);
-            } while ($num2 < 3 && $num2 > $num1);
+            } while ($num2 < 3 || $num2 > $num1 );
 
             if ($num1 === $num2) {
                 $i--;
