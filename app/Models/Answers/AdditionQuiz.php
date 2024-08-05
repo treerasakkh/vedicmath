@@ -52,7 +52,7 @@ class AdditionQuiz extends Addition
             default:
                 $numDigits = (object)[
                     'set1' => (object)[
-                        'min' => 2, 'max' => 5, 'total' => 3, 'decimalPlaces' => 0
+                        'min' => 2, 'max' => 4, 'total' => 3, 'decimalPlaces' => 0
                     ],
                     'set3' => (object)[
                         'min' => 3, 'max' => 5, 'total' => 4, 'decimalPlaces' => 0

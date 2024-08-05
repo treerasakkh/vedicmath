@@ -21,20 +21,110 @@
         @page {
             size: A4
         }
-        .sarabun-regular {
+
+        * {
             font-family: "Sarabun", sans-serif;
-            font-weight: 400;
             font-style: normal;
             font-size: 15px;
         }
+
+        .dash {
+            position: relative;
+        }
+
+        .dash::before {
+            position: absolute;
+            content: '/';
+            color: #EF4444;
+            /* Red-500 */
+            font-size: 10px;
+            font-weight: 600;
+            /* Semibold */
+            top: -9px;
+            left: 4px;
+        }
+
+        .dot {
+            position: relative;
+        }
+
+        .dot::after {
+            position: absolute;
+            content: '.';
+            color: #EF4444;
+            /* Red-500 */
+            font-weight: 600;
+            /* Semibold */
+            top: -16px;
+            left: 2.5px;
+        }
+
+        .bar {
+            position: relative;
+        }
+
+        .bar::after {
+            position: absolute;
+            content: '-';
+            font-size: 24px;
+            color: #EF4444;
+            top: -20px;
+            left: 0;
+        }
+
+        .bar-sub {
+            position: relative;
+        }
+
+        .bar-sub::after {
+            position: absolute;
+            content: '-';
+            font-size: 20px;
+            color: #EF4444;
+            top: -9px;
+            left: -1px;
+        }
+
+        .bar-text {
+            position: relative;
+        }
+
+        .bar-text::after {
+            position: absolute;
+            content: '-';
+            font-size: 20px;
+            color: #EF4444;
+            top: -9px;
+            left: 0px;
+        }
+        .plus-sign{
+            position: relative;
+        }
+        .plus-sign::after{
+            position: absolute;
+            content:'+';
+            font-size: 16px;
+            top:8px;
+            right:-12px;
+        }
+        .front-plus{
+            position: relative;
+        }
+        .front-plus::before{
+            position: absolute;
+            content:'+';
+            left:-8px;
+        }
+        
     </style>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <!-- Set "A5", "A4" or "A3" for class name -->
 <!-- Set also "landscape" if you need -->
 
-<body class="A4 sarabun-regular">
+<body class="A4">
 
     <!-- Each sheet element should have the class "sheet" -->
     <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
