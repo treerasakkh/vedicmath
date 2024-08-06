@@ -2,9 +2,9 @@
     <x-page>
         <div class="text-center mt-8 mb-4 font-semibold">ข้อสอบแบบวิธีทำระดับชั้น {{ $levelTitle }} เรื่อง
             การคูณโดยการจัดตำแหน่งผลคูณ ระดับ{{ $difficultyTitle }}</div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 {{ $levelTitle==='ม.1-3'? 'gap-2':'gap-8' }}">
             @foreach ($quizzes as $quiz )
-            <x-solutions.multiplication-aligned :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="false" :item="$loop->iteration" />
+            <x-solutions.multiplication-aligned :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="false" :item="$loop->iteration" :space-wide="$levelTitle==='ม.1-3'?false:true" />
                 
             @endforeach
         </div>
@@ -15,7 +15,7 @@
             การคูณโดยการจัดตำแหน่งผลคูณ ระดับ{{ $difficultyTitle }}</div>
         <div class="grid grid-cols-2 gap-2">
             @foreach ($quizzes as $quiz )
-            <x-solutions.multiplication-aligned :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="true" :item="$loop->iteration" />
+            <x-solutions.multiplication-aligned :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="true" :item="$loop->iteration" :space-wide="$levelTitle==='ม.1-3'?false:true" />
                 
             @endforeach
         </div>

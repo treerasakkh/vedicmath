@@ -10,7 +10,7 @@ use Illuminate\View\Component;
 class MultiplicationAligned extends Component
 {
     use EasyArray;
-     /**
+    /**
      * Create a new component instance.
      */
     public  $row1;
@@ -22,13 +22,15 @@ class MultiplicationAligned extends Component
     private $maxDigits;
 
     public $item;
+    public $spaceWide;
 
-    public function __construct(int $num1, int $num2, bool $showSolution,int $item)
+    public function __construct(int $num1, int $num2, bool $showSolution, int $item, bool $spaceWide = false)
     {
         //
 
         $this->item = $item;
         $this->showSolution = $showSolution;
+        $this->spaceWide = $spaceWide;
         $product = $num1 * $num2;
 
         $maxNumber = max($num1, $num2);
@@ -127,7 +129,7 @@ class MultiplicationAligned extends Component
         $row3 = ['', '', '', ...$this->createTwoDigits($num2[1] * $num1[1]), ...$this->createTwoDigits($num2[1] * $num1[3]), ''];
         $row4 = ['', '', ...$this->createTwoDigits($num2[1] * $num1[0]), ...$this->createTwoDigits($num2[1] * $num1[2]), '', ''];
         $row5 = ['', '', ...$this->createTwoDigits($num2[0] * $num1[1]), ...$this->createTwoDigits($num2[0] * $num1[3]), '', ''];
-        $row6 = ['',  ...$this->createTwoDigits($num2[0] * $num1[0]), ...$this->createTwoDigits($num2[0] * $num1[2]), '', '',''];
+        $row6 = ['',  ...$this->createTwoDigits($num2[0] * $num1[0]), ...$this->createTwoDigits($num2[0] * $num1[2]), '', '', ''];
 
         return [$row1, $row2, $row3, $row4, $row5, $row6];
     }
@@ -141,11 +143,10 @@ class MultiplicationAligned extends Component
         $row3 = ['', '', '', ...$this->createTwoDigits($num2[2] * $num1[1]), ...$this->createTwoDigits($num2[2] * $num1[3]), ''];
         $row4 = ['', '', ...$this->createTwoDigits($num2[2] * $num1[0]), ...$this->createTwoDigits($num2[2] * $num1[2]), '', ''];
         $row5 = ['', '', ...$this->createTwoDigits($num2[1] * $num1[1]), ...$this->createTwoDigits($num2[1] * $num1[3]), '', ''];
-        $row6 = ['',  ...$this->createTwoDigits($num2[1] * $num1[0]), ...$this->createTwoDigits($num2[1] * $num1[2]), '', '',''];
-        $row7 = ['',...$this->createTwoDigits($num2[0] * $num1[1]), ...$this->createTwoDigits($num2[0] * $num1[3]), '', '',''];
-        $row8 = [...$this->createTwoDigits($num2[0] * $num1[0]), ...$this->createTwoDigits($num2[0] * $num1[2]), '', '','',''];
-        return [$row1, $row2, $row3, $row4, $row5, $row6,$row7,$row8];
-
+        $row6 = ['',  ...$this->createTwoDigits($num2[1] * $num1[0]), ...$this->createTwoDigits($num2[1] * $num1[2]), '', '', ''];
+        $row7 = ['', ...$this->createTwoDigits($num2[0] * $num1[1]), ...$this->createTwoDigits($num2[0] * $num1[3]), '', '', ''];
+        $row8 = [...$this->createTwoDigits($num2[0] * $num1[0]), ...$this->createTwoDigits($num2[0] * $num1[2]), '', '', '', ''];
+        return [$row1, $row2, $row3, $row4, $row5, $row6, $row7, $row8];
     }
 
     private function createTwoDigits($number)
