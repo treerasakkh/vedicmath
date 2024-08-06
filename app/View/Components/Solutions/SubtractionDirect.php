@@ -30,13 +30,13 @@ class SubtractionDirect extends Component
         $this->question = number_format($num1) . " - " . number_format($num2);
 
         $product = $num1 - $num2;
-        $maxDigits = strlen('' . $num1);
+        $maxDigits = strlen((string) $num1);
         $num1Array = $this->make($num1)->padLeft($maxDigits + 1, 0)->get();
         $num2Array = $this->make($num2)->padLeft($maxDigits + 1, 0)->get();
         $blankArray = $this->make([])->padLeft($maxDigits + 1, '&nbsp;')->get();
         $subColumnArray = $this->make([])->padLeft($maxDigits + 1, 0)->get();
 
-        for ($i = 0; $i < $maxDigits; $i++) {
+        for ($i = 1; $i < $maxDigits+1; $i++) {
             $subColumn = $num1Array[$i] - $num2Array[$i];
             $subColumnArray[$i] = $subColumn < 0 ? '<span class="bar">' . abs($subColumn) . '</span>' : $subColumn;
         }
