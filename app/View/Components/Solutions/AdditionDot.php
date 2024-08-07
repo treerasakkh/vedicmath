@@ -2,6 +2,7 @@
 namespace App\View\Components\Solutions;
 
 use App\Traits\EasyArray;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
@@ -52,7 +53,8 @@ class AdditionDot extends Component
                 }
 
                 if ($walker > 9) {
-                    $numbers[$row][$col] = '<span class="dot">' . $numbers[$row][$col] . '</span>';
+                    $numbers[$row][$col] = view('components.solutions.box-dot',['digit'=>$numbers[$row][$col]])->render();
+                    // $numbers[$row][$col] = '<span class="dot">' . $numbers[$row][$col] . '</span>';
                     $walker -= 10;
                     $keeper += 1;
                 }
@@ -88,8 +90,6 @@ class AdditionDot extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.solutions.addition-dot',[
-
-        ]);
+        return view('components.solutions.addition-dot');
     }
 }

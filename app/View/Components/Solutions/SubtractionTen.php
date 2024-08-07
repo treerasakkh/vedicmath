@@ -54,7 +54,8 @@ class SubtractionTen extends Component
         $row1 = $this->make($row1,)->clearFrontZero('&nbsp;')->get();
         $row3 = $this->make($row3,)->clearFrontZero('&nbsp;')->get();
         $row2 = array_map(function ($x) {
-            return $x != '' ? '<span class="front-plus">' . $x . '</span>' : '&nbsp;';
+            return $x != '' ? view('components.solutions.box-front-plus',['digit'=>$x])->render() : '&nbsp;';
+            // return $x != '' ? '<span class="front-plus">' . $x . '</span>' : '&nbsp;';
         }, $row2);
 
 

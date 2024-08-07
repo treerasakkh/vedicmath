@@ -44,7 +44,7 @@
             left: 4px;
         }
 
-        .dot {
+        /* .dot {
             position: relative;
         }
 
@@ -57,7 +57,7 @@
             /* Semibold */
             top: -16px;
             left: 2.5px;
-        }
+        } */
 
         .bar {
             position: relative;
@@ -97,25 +97,19 @@
             top: -9px;
             left: 0px;
         }
-        .plus-sign{
-            position: relative;
-        }
-        .plus-sign::after{
-            position: absolute;
-            content:'+';
-            font-size: 16px;
-            top:8px;
-            right:-12px;
-        }
         .front-plus{
             position: relative;
+            font-size: 12px;
         }
         .front-plus::before{
-            position: absolute;
+            position:absolute;
             content:'+';
-            left:-8px;
+            color:red;
+            left:-7px;
+            top:-2px;
+            font-size: 12px;
         }
-        
+
     </style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

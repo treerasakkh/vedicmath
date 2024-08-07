@@ -10,7 +10,10 @@ use App\Models\Difficulty;
 use App\Models\Level;
 use App\Models\Method;
 use App\Models\Operation;
+use App\Models\Solutions\DivisionNikhilam;
+use App\Models\Solutions\DivisionParavart;
 use App\Models\Solutions\MultiplicationAligned;
+use App\Models\Solutions\MultiplicationBaseShift;
 use App\Models\Solutions\MultiplicationVerticalCross;
 use App\Models\Solutions\SubtractionDirect;
 use App\Models\Solutions\SubtractionNikhilam;
@@ -81,9 +84,13 @@ class VedicMathController extends Controller
                     return $this->multiplication_vertical_cross($level, $difficulty);
                     break;
                 case 'multiplication_base_shift':
+                    return $this->multiplication_base_shift($level, $difficulty);
+                    break;
                 case 'division_nikhilam':
+                    return $this->division_nikhilam($level, $difficulty);
+                    break;
                 case 'division_paravart':
-                    return abort(404);
+                    return $this->division_paravart($level, $difficulty);
                     break;
                 default:
                     return abort(404);
@@ -191,5 +198,29 @@ class VedicMathController extends Controller
         $multiplicationQuiz = new MultiplicationVerticalCross($level, $difficulty);
         $quizzes = $multiplicationQuiz->get(8);
         return view('vedics.solutions.multiplication-vertical-cross', compact('quizzes', 'levelTitle', 'difficultyTitle'));
+    }
+
+    public function multiplication_base_shift($level, $difficulty){
+        $levelTitle = Level::where('code', $level)->value('explain');
+        $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
+        $multiplicationQuiz = new MultiplicationBaseShift($level, $difficulty);
+        $quizzes = $multiplicationQuiz->get(8);
+        return view('vedics.solutions.multiplication-base-shift', compact('quizzes', 'levelTitle', 'difficultyTitle'));
+    }
+
+    public function division_nikhilam($level, $difficulty){
+        $levelTitle = Level::where('code', $level)->value('explain');
+        $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
+        $divisionQuiz = new DivisionNikhilam($level, $difficulty);
+        $quizzes = $divisionQuiz->get(8);
+        return view('vedics.solutions.division-nikhilam', compact('quizzes', 'levelTitle', 'difficultyTitle'));
+    }
+
+    public function division_paravart($level, $difficulty){
+        $levelTitle = Level::where('code', $level)->value('explain');
+        $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
+        $divisionQuiz = new DivisionParavart($level, $difficulty);
+        $quizzes = $divisionQuiz->get(8);
+        return view('vedics.solutions.division-paravart', compact('quizzes', 'levelTitle', 'difficultyTitle'));
     }
 }
