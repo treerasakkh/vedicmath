@@ -44,21 +44,6 @@
             left: 4px;
         }
 
-        /* .dot {
-            position: relative;
-        }
-
-        .dot::after {
-            position: absolute;
-            content: '.';
-            color: #EF4444;
-            /* Red-500 */
-            font-weight: 600;
-            /* Semibold */
-            top: -16px;
-            left: 2.5px;
-        } */
-
         .bar {
             position: relative;
         }
@@ -97,18 +82,7 @@
             top: -9px;
             left: 0px;
         }
-        .front-plus{
-            position: relative;
-            font-size: 12px;
-        }
-        .front-plus::before{
-            position:absolute;
-            content:'+';
-            color:red;
-            left:-7px;
-            top:-2px;
-            font-size: 12px;
-        }
+
 
     </style>
 
