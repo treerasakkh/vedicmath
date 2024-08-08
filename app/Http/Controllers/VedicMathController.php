@@ -10,6 +10,7 @@ use App\Models\Difficulty;
 use App\Models\Level;
 use App\Models\Method;
 use App\Models\Operation;
+use App\Models\Solutions\AdditionSubtractionMixed;
 use App\Models\Solutions\DivisionNikhilam;
 use App\Models\Solutions\DivisionParavart;
 use App\Models\Solutions\MultiplicationAligned;
@@ -77,6 +78,8 @@ class VedicMathController extends Controller
                     return $this->subtraction_nikhilam($level, $difficulty);
                     break;
                 case 'addition_subtraction_mixed':
+                    return $this->addition_subtraction_mixed($level, $difficulty);
+
                 case 'multiplication_aligned':
                     return $this->multiplication_aligned($level, $difficulty);
                     break;
@@ -180,6 +183,16 @@ class VedicMathController extends Controller
         $subtractionQuiz = new SubtractionNikhilam($level, $difficulty);
         $quizzes = $subtractionQuiz->get(8);
         return view('vedics.solutions.subtraction-nikhilam', compact('quizzes', 'levelTitle', 'difficultyTitle'));
+    }
+
+    public function addition_subtraction_mixed($level,$difficulty){
+        $levelTitle = Level::where('code', $level)->value('explain');
+        $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
+        $additionSubtractionQuiz = new AdditionSubtractionMixed($level, $difficulty);
+        $quizzes = $additionSubtractionQuiz->get(8);
+
+        // return $quizzes;
+        return view('vedics.solutions.addition-subtraction-mixed', compact('quizzes', 'levelTitle', 'difficultyTitle'));
     }
 
     public function multiplication_aligned($level, $difficulty){
