@@ -2,79 +2,138 @@
 
 namespace App\Models\Solutions;
 
+use App\Traits\Randoms;
 use stdClass;
+use App\View\Components\Solutions\DivisionParavart as Paravart;
 
 class DivisionParavart extends SolutionAbstract
 {
-    public function __construct($level, $difficulty)
+    use Randoms;
+
+    protected string $level;
+    protected string $difficulty;
+    protected int $minDividendDigits;
+    protected int $maxDividendDigits;
+    protected int $minDivisorDigits;
+    protected int $maxDivisorDigits;
+
+    public function __construct(string $level, string $difficulty)
     {
         $this->level = $level;
         $this->difficulty = $difficulty;
     }
-    private function defineNumber(): self
+
+
+    protected function defineNumberRange(): void
+
     {
-        switch ($this->level) {
-            case 'p4-6':
-                $this->setMinMaxNum1(3, 3);
-                $this->setMinMaxNum2(2, 2);
-                break;
-            case 'm1-3':
-                $this->setMinMaxNum1(4, 4);
-                $this->setMinMaxNum2(4, 4);
-                break;
-            default:
-                $this->setMinMaxNum1(3, 3);
-                $this->setMinMaxNum2(2, 2);
+        $levelRanges = [
+            'm1-3' => [4, 6, 2, 4],
+            'default' => [3, 3, 2, 2]
+        ];
+
+        [$minDividend, $maxDividend, $minDivisor, $maxDivisor] = $levelRanges[$this->level] ?? $levelRanges['default'];
+        $this->setMinMaxDividend($minDividend, $maxDividend);
+        $this->setMinMaxDivisor($minDivisor, $maxDivisor);
+    }
+
+    protected function setMinMaxDividend(int $min, int $max): void
+    {
+        $this->minDividendDigits = $min;
+        $this->maxDividendDigits = $max;
+    }
+
+    protected function setMinMaxDivisor(int $min, int $max): void
+    {
+        $this->minDivisorDigits = $min;
+        $this->maxDivisorDigits = $max;
+    }
+
+    protected function getDifficultySettings(): array
+    {
+        $difficultyMap = [
+            'easy' => [
+                'fixDividendDigits' => [0, 1, 2, 3, 4, 5, 6],
+                'fixDivisorDigits' => [0, 1, 2, 3, 4, 5, 6]
+            ],
+            'hard' => [
+                'fixDividendDigits' => [4, 5, 6, 7, 8, 9],
+                'fixDivisorDigits' => [4, 5, 6, 7, 8, 9]
+            ],
+            'default' => [
+                'fixDividendDigits' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                'fixDivisorDigits' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            ]
+        ];
+
+        return $difficultyMap[$this->difficulty] ?? $difficultyMap['default'];
+    }
+
+
+    protected function generateQuiz(): stdClass
+    {
+        do {
+            [$dividend, $divisor] = $this->level === 'm1-3' ? $this->generateForM13() : $this->generateForOther();
+
+            $paravart = new Paravart($dividend, $divisor, 0, false, false);
+        } while ($paravart->isMore);
+
+        $answer = (object)[
+            'product' => intdiv($dividend, $divisor),
+            'remaider' => $dividend % $divisor
+        ];
+        return (object)['dividend' => $dividend, 'divisor' => $divisor, 'answer' => $answer];
+    }
+
+    protected function generateForM13(): array
+    {
+        $divisor = $this->getDivisor([1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5]);
+        $length = mt_rand(4, 6);
+
+        if ($this->difficulty === 'easy') {
+            $fixNumbers = [0, 1, 2, 3, 4, 5];
+        } else if ($this->difficulty === 'hard') {
+            $fixNumbers = [ 4, 5, 6, 7, 8, 9];
+        } else {
+
+            $fixNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         }
-        return $this;
+
+        $dividend = $this->generateRandomNumber($length, $fixNumbers);
+        return [$dividend, $divisor];
     }
 
-    private function setMinMaxNum1(int $min, int $max): self
+    protected function getDivisor(array $numbers): int
     {
-        $this->minDigitNum1 = $min;
-        $this->maxDigitNum1 = $max;
-        return $this;
-    }
-    private function setMinMaxNum2(int $min, int $max): self
-    {
-        $this->minDigitNum2 = $min;
-        $this->maxDigitNum2 = $max;
-        return $this;
+        $numSet = collect($numbers);
+        $randomNumbers = $numSet->shuffle()->take(mt_rand(1, 3));
+        return intval(implode(array_merge([1], $randomNumbers->toArray())));
     }
 
-    private function rand(): stdClass
+    protected function generateForOther(): array
     {
-        switch ($this->difficulty) {
-            case 'easy':
-                $fixDigits1 =[0,1,2,3,4,5,6];
-                $fixDigits2=[0,1,2,3,4,5,6];
-                break;
-            case 'hard':
-                $fixDigits1 =[4,5,6,7,8,9];
-                $fixDigits2=[4,5,6,7,8,9];
-                break;
-            default:
-            $fixDigits1 =[0,1,2,3,4,5,6,7,8,9];
-            $fixDigits2=[0,1,2,3,4,5,6,7,8,9];
-        }
+        $divisor = mt_rand(11, 15);
+        $maxMultiplier = intdiv(999, $divisor);
+        $minMultiplier = intdiv(100, $divisor) + 1;
 
+        do {
+            $multiplier = mt_rand($minMultiplier, $maxMultiplier);
+            $invalid = $this->findGCD($multiplier, $divisor) === 1;
+        } while ($invalid);
 
-        list($num1,$num2) = $this->getRandomNumbers($this->minDigitNum1, $this->maxDigitNum1,$this->minDigitNum2, $this->maxDigitNum2,$fixDigits1,$fixDigits2);
+        $dividend = $multiplier * $divisor;
 
-        $answer = $num1 * $num2;
-        return (object)['num1' => $num1, 'num2' => $num2, 'answer' => $answer];
+        return [$dividend, $divisor];
+    }
+
+    protected function findGCD($a, $b)
+    {
+        return $b == 0 ? $a : $this->findGCD($b, $a % $b);
     }
 
     public function get(int $numItems): array
     {
-        //ระบุจำนวนหลักตามระดับ
-        $this->defineNumber();
-        //สุ่มเลขตามระดับความยาก
-        $quizzes = [];
-        for ($i = 0; $i < $numItems; $i++) {
-            $quizzes[] = $this->rand();
-        }
-        //ส่งออกในรูปอะเรย์
-        return $quizzes;
+        $this->defineNumberRange();
+        return array_map(fn () => $this->generateQuiz(), range(1, $numItems));
     }
 }

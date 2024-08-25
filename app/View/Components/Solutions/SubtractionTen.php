@@ -18,6 +18,7 @@ class SubtractionTen extends Component
     public $showSolution;
     public $question;
     public $item;
+    public $numDashes = 0;
     /**
      * Create a new component instance.
      */
@@ -46,6 +47,7 @@ class SubtractionTen extends Component
                 $row2[$i] = (10 - ($row3Original[$i] + $keeper));
                 $row3[$i - 1] = '<span class="dash">' . $row3[$i - 1] . '</span>';
                 $keeper = 1;
+                $this->numDashes++;
             } else {
                 $keeper = 0;
             }

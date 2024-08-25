@@ -10,6 +10,7 @@ use App\Models\Difficulty;
 use App\Models\Level;
 use App\Models\Method;
 use App\Models\Operation;
+use App\Models\Solutions\AdditionDot;
 use App\Models\Solutions\AdditionSubtractionMixed;
 use App\Models\Solutions\DivisionNikhilam;
 use App\Models\Solutions\DivisionParavart;
@@ -20,6 +21,7 @@ use App\Models\Solutions\SubtractionDirect;
 use App\Models\Solutions\SubtractionNikhilam;
 use App\Models\Solutions\SubtractionTen;
 use App\Models\Solutions\SubtractionTenNine;
+use App\View\Components\Solutions\AdditionDot as SolutionsAdditionDot;
 use Illuminate\Http\Request;
 
 class VedicMathController extends Controller
@@ -79,7 +81,7 @@ class VedicMathController extends Controller
                     break;
                 case 'addition_subtraction_mixed':
                     return $this->addition_subtraction_mixed($level, $difficulty);
-
+                    break;
                 case 'multiplication_aligned':
                     return $this->multiplication_aligned($level, $difficulty);
                     break;
@@ -144,8 +146,8 @@ class VedicMathController extends Controller
     {
         $levelTitle = Level::where('code', $level)->value('explain');
         $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
-        $additionQuiz = new AdditionQuiz($level, $difficulty);
-        $quizzes = $additionQuiz->getQuizzes();
+        $additionQuiz = new AdditionDot($level, $difficulty);
+        $quizzes = $additionQuiz->get(30);
         return view('vedics.solutions.addition-dot', compact('quizzes', 'levelTitle', 'difficultyTitle'));
     }
 
@@ -217,7 +219,7 @@ class VedicMathController extends Controller
         $levelTitle = Level::where('code', $level)->value('explain');
         $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
         $multiplicationQuiz = new MultiplicationBaseShift($level, $difficulty);
-        $quizzes = $multiplicationQuiz->get(8);
+        $quizzes = $multiplicationQuiz->get(6);
         return view('vedics.solutions.multiplication-base-shift', compact('quizzes', 'levelTitle', 'difficultyTitle'));
     }
 
@@ -225,7 +227,7 @@ class VedicMathController extends Controller
         $levelTitle = Level::where('code', $level)->value('explain');
         $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
         $divisionQuiz = new DivisionNikhilam($level, $difficulty);
-        $quizzes = $divisionQuiz->get(8);
+        $quizzes = $divisionQuiz->get(4);
         return view('vedics.solutions.division-nikhilam', compact('quizzes', 'levelTitle', 'difficultyTitle'));
     }
 
@@ -233,7 +235,8 @@ class VedicMathController extends Controller
         $levelTitle = Level::where('code', $level)->value('explain');
         $difficultyTitle = Difficulty::where('code', $difficulty)->value('explain');
         $divisionQuiz = new DivisionParavart($level, $difficulty);
-        $quizzes = $divisionQuiz->get(8);
+        $quizzes = $divisionQuiz->get(4);
+        $quizzes = array_chunk($quizzes,2);
         return view('vedics.solutions.division-paravart', compact('quizzes', 'levelTitle', 'difficultyTitle'));
     }
 }

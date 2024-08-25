@@ -17,6 +17,9 @@ class AdditionDot extends Component
     public $questionRows;
     public $blank;
     public $item;
+    public $numDots = 0;
+
+    
     public function __construct(array $numbers , bool $showSolution,int $item) 
     {
 
@@ -57,6 +60,7 @@ class AdditionDot extends Component
                     // $numbers[$row][$col] = '<span class="dot">' . $numbers[$row][$col] . '</span>';
                     $walker -= 10;
                     $keeper += 1;
+                    $this->numDots++;
                 }
             }
         }

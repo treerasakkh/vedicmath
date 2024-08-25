@@ -10,5 +10,5 @@
             {!! $showSolution ? $product : $blank !!}
         </tr>
     </table>
-    <x-solutions.box-plus />
+    <x-solutions.box-plus class="pt-6" />
 </x-frame>

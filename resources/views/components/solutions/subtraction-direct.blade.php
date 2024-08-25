@@ -5,9 +5,8 @@
     <table class="mt-12">
         <tr >{!! $row1 !!} </tr>
         <tr class="border-b border-b-gray-400">{!! $row2 !!}</tr>
-        <tr class="text-red-500">{!! $showSolution ? $row3 : $blank !!}</tr>
+        <tr >{!! $showSolution ? $row3 : $blank !!}</tr>
         <tr class="border-t border-b-4 border-double border-gray-400 *:w-5 font-semibold">{!! $showSolution ? $row4 : $blank !!}</tr>
     </table>
     <x-solutions.box-minus class="pt-16" />
-
 </x-frame>

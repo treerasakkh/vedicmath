@@ -3,6 +3,7 @@
 namespace App\Models\Solutions;
 
 use stdClass;
+use App\View\Components\Solutions\SubtractionDirect as SubDirect;
 
 class SubtractionDirect extends SolutionAbstract
 {
@@ -46,21 +47,24 @@ class SubtractionDirect extends SolutionAbstract
     {
         switch ($this->difficulty) {
             case 'easy':
-                $fixDigits1 =[mt_rand(1,4),5,6,7,8,9];
-                $fixDigits2=[0,1,2,3,4,5,6,mt_rand(7,8)];
+                $fixDigits1 = [mt_rand(1, 4), 5, 6, 7, 8, 9];
+                $fixDigits2 = [0, 1, 2, 3, 4, 5, 6, mt_rand(7, 8)];
                 break;
             case 'hard':
-                $fixDigits1 =[0,1,2,3,4,5,6];
-                $fixDigits2=[4,5,6,7,8,9];
+                $fixDigits1 = [0, 1, 2, 3, 4, 5, 6];
+                $fixDigits2 = [4, 5, 6, 7, 8, 9];
                 break;
             default:
-            $fixDigits1 =[0,1,2,3,4,5,6,7,8,9];
-            $fixDigits2=[0,1,2,3,4,5,6,7,8,9];
+                $fixDigits1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                $fixDigits2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         }
 
-
-        list($num1,$num2) = $this->getRandomNumbers($this->minDigitNum1, $this->maxDigitNum1,$this->minDigitNum2, $this->maxDigitNum2,$fixDigits1,$fixDigits2);
-
+        do {
+            list($num1, $num2) = $this->getRandomNumbers($this->minDigitNum1, $this->maxDigitNum1, $this->minDigitNum2, $this->maxDigitNum2, $fixDigits1, $fixDigits2);
+            $subDirect = new SubDirect($num1, $num2, false, 0);
+            $invalid = $subDirect->numNegatives < 1;
+        } while ($invalid);
+        
         $answer = $num1 - $num2;
         return (object)['num1' => $num1, 'num2' => $num2, 'answer' => $answer];
     }

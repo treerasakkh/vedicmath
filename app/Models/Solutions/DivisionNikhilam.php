@@ -2,15 +2,20 @@
 
 namespace App\Models\Solutions;
 
+use App\Traits\Randoms;
 use stdClass;
 
 class DivisionNikhilam extends SolutionAbstract
 {
+    use Randoms;
+
+    
     public function __construct($level, $difficulty)
     {
         $this->level = $level;
         $this->difficulty = $difficulty;
     }
+
     private function defineNumber(): self
     {
         switch ($this->level) {
@@ -19,8 +24,8 @@ class DivisionNikhilam extends SolutionAbstract
                 $this->setMinMaxNum2(2, 2);
                 break;
             case 'm1-3':
-                $this->setMinMaxNum1(4, 4);
-                $this->setMinMaxNum2(4, 4);
+                $this->setMinMaxNum1(4, 6);
+                $this->setMinMaxNum2(2, 4);
                 break;
             default:
                 $this->setMinMaxNum1(3, 3);
@@ -44,26 +49,44 @@ class DivisionNikhilam extends SolutionAbstract
 
     private function rand(): stdClass
     {
-        switch ($this->difficulty) {
-            case 'easy':
-                $fixDigits1 =[0,1,2,3,4,5,6];
-                $fixDigits2=[0,1,2,3,4,5,6];
-                break;
-            case 'hard':
-                $fixDigits1 =[4,5,6,7,8,9];
-                $fixDigits2=[4,5,6,7,8,9];
-                break;
-            default:
-            $fixDigits1 =[0,1,2,3,4,5,6,7,8,9];
-            $fixDigits2=[0,1,2,3,4,5,6,7,8,9];
+        $difficultyMap = [
+            'easy' => [
+                'fixDigits1' => [0, 1, 2, 3, 4, 5, 6],
+                'fixDigits2' => [8, 9]
+            ],
+            'hard' => [
+                'fixDigits1' => [4, 5, 6, 7, 8, 9],
+                'fixDigits2' => [6, 7, 8, 9]
+            ],
+            'default' => [
+                'fixDigits1' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                'fixDigits2' => [7, 8, 9]
+            ]
+        ];
+
+        $difficulty = $difficultyMap[$this->difficulty] ?? $difficultyMap['default'];
+        $fixDigits1 = $difficulty['fixDigits1'];
+        $fixDigits2 = $difficulty['fixDigits2'];
+
+        $length = mt_rand($this->minDigitNum2, $this->maxDigitNum2);
+        $num2 = $this->generateRandomNumber($length, $fixDigits2);
+
+        if ($this->level === 'm1-3') {
+            do {
+                $length = mt_rand($this->minDigitNum1, $this->maxDigitNum1);
+                $num1 = $this->generateRandomNumber($length, $fixDigits1);
+            } while ($num2 >= $num1 || floor($num1 / $num2) === 0);
+        } else {
+            do {
+                $multiplier = mt_rand(2, intval((10 ** ($this->maxDigitNum1) - 1) / $num2));
+                $num1 = $num2 * $multiplier;
+            } while ($num1 < 10 ** ($this->minDigitNum1 - 1) || $num1 > 10 ** $this->maxDigitNum1 - 1);
         }
 
 
-        list($num1,$num2) = $this->getRandomNumbers($this->minDigitNum1, $this->maxDigitNum1,$this->minDigitNum2, $this->maxDigitNum2,$fixDigits1,$fixDigits2);
-
-        $answer = $num1 * $num2;
-        return (object)['num1' => $num1, 'num2' => $num2, 'answer' => $answer];
+        return (object)['num1' => $num1, 'num2' => $num2];
     }
+
 
     public function get(int $numItems): array
     {

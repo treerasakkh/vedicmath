@@ -21,6 +21,7 @@ class SubtractionDirect extends Component
     public $showSolution;
     public $question;
     public $item;
+    public $numNegatives = 0;
 
     public function __construct(int $num1, int $num2, bool $showSolution, int $item)
     {
@@ -36,15 +37,22 @@ class SubtractionDirect extends Component
         $blankArray = $this->make([])->padLeft($maxDigits + 1, '&nbsp;')->get();
         $subColumnArray = $this->make([])->padLeft($maxDigits + 1, 0)->get();
 
-        for ($i = 1; $i < $maxDigits+1; $i++) {
+        for ($i = 1; $i < $maxDigits + 1; $i++) {
             $subColumn = $num1Array[$i] - $num2Array[$i];
-            $subColumnArray[$i] = $subColumn < 0 ? '<span class="bar">' . abs($subColumn) . '</span>' : $subColumn;
+
+            if ($subColumn < 0) {
+                $subColumnArray[$i] = '<span class="bar">' . abs($subColumn) . '</span>';
+                $this->numNegatives++;
+            } else {
+                $subColumnArray[$i] = $subColumn;
+
+            }
         }
 
         $num1Array = $this->make($num1Array)->clearFrontZero()->get();
         $num2Array = $this->make($num2Array)->clearFrontZero()->get();
         $subColumnArray = $this->make($subColumnArray)->clearFrontZero()->get();
-        $productArray = $this->make($product)->padLeft($maxDigits+1, '')->get();
+        $productArray = $this->make($product)->padLeft($maxDigits + 1, '')->get();
 
         $this->row1 = '<td>' . implode('</td><td>', $num1Array) . '</td>';
         $this->row2 = '<td>' . implode('</td><td>', $num2Array) . '</td>';

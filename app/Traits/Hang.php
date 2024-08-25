@@ -19,11 +19,20 @@ trait Hang
         return $this;
     }
 
-    private function formatNumber(): string
+    public function formatNumber(): string
     {
         $strNumber = (string) abs($this->number);
-        $leftHalf = str_split(substr($strNumber, 0, strlen($strNumber) - $this->digitNormal));
-        $rightHalf = str_split(substr($strNumber, -$this->digitNormal));
+        $lenNumber = strlen($strNumber);
+
+        if ($lenNumber < $this->digitNormal) {
+            $leftHalf =[];// array_fill(0, $this->digitNormal -$lenNumber,0);
+            $rightHalf = array_merge(array_fill(0,$this->digitNormal -$lenNumber,0),str_split($strNumber));
+
+        } else {
+            $leftHalf = str_split(substr($strNumber, 0, $lenNumber - $this->digitNormal));
+            $rightHalf = str_split(substr($strNumber, -$this->digitNormal));
+        }
+
 
         if ($this->number < 0) {
             foreach ($leftHalf as &$el) {

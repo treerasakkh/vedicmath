@@ -2,79 +2,93 @@
 
 namespace App\Models\Solutions;
 
+use App\Traits\Randoms;
 use stdClass;
 
 class MultiplicationBaseShift extends SolutionAbstract
 {
+    use Randoms;
+
+    protected int $minNum1Digits;
+    protected int $minNum2Digits;
+    protected int $maxNum1Digits;
+    protected int $maxNum2Digits;
+
     public function __construct($level, $difficulty)
     {
         $this->level = $level;
         $this->difficulty = $difficulty;
     }
-    private function defineNumber(): self
-    {
-        switch ($this->level) {
-            case 'p4-6':
-                $this->setMinMaxNum1(3, 3);
-                $this->setMinMaxNum2(2, 2);
-                break;
-            case 'm1-3':
-                $this->setMinMaxNum1(4, 4);
-                $this->setMinMaxNum2(4, 4);
-                break;
-            default:
-                $this->setMinMaxNum1(3, 3);
-                $this->setMinMaxNum2(2, 2);
-        }
-        return $this;
-    }
 
-    private function setMinMaxNum1(int $min, int $max): self
+    protected function getQuiz(): stdClass
     {
-        $this->minDigitNum1 = $min;
-        $this->maxDigitNum1 = $max;
-        return $this;
-    }
-    private function setMinMaxNum2(int $min, int $max): self
-    {
-        $this->minDigitNum2 = $min;
-        $this->maxDigitNum2 = $max;
-        return $this;
-    }
+        $levelBases = [
+            'p4-6' => [10, 100, 1000],
+            'm1-3'  => [100, 1000, 10000, 10000, 100000],
+        ];
 
-    private function rand(): stdClass
-    {
-        switch ($this->difficulty) {
-            case 'easy':
-                $fixDigits1 =[0,1,2,3,4,5,6];
-                $fixDigits2=[0,1,2,3,4,5,6];
-                break;
-            case 'hard':
-                $fixDigits1 =[4,5,6,7,8,9];
-                $fixDigits2=[4,5,6,7,8,9];
-                break;
-            default:
-            $fixDigits1 =[0,1,2,3,4,5,6,7,8,9];
-            $fixDigits2=[0,1,2,3,4,5,6,7,8,9];
+        $bases = $levelBases[$this->level] ?? [10, 100];
+        $collection = collect($bases);
+        $base = $collection->random();
+
+        if ($this->difficulty === 'easy') {
+            $limit10 = 9;
+            $limit100 = 49;
+            $limit1K = 99;
+            $limit10K = 99;
+            $limit100K = 199;
+        } elseif ($this->difficulty === 'hard') {
+            $limit10 = 9;
+            $limit100 = 99;
+            $limit1K = 999;
+            $limit10K = 9999;
+            $limit100K = 999;
+        } else {
+            $limit10 = 9;
+            $limit100 = 69;
+            $limit1K = 129;
+            $limit10K = 129;
+            $limit100K = 299;
         }
 
 
-        list($num1,$num2) = $this->getRandomNumbers($this->minDigitNum1, $this->maxDigitNum1,$this->minDigitNum2, $this->maxDigitNum2,$fixDigits1,$fixDigits2);
+        $limits = [
+            10 => $limit10,
+            100 => $limit100,
+            1000 => $limit1K,
+            10000 => $limit10K,
+            100000 => $limit100K
+        ];
 
-        $answer = $num1 * $num2;
-        return (object)['num1' => $num1, 'num2' => $num2, 'answer' => $answer];
+        if ($base === $collection->min()) {
+            $num1 = $base + mt_rand(1, $limits[$base]);
+            $num2 = $base + mt_rand(1, $limits[$base]);
+        } else if ($base === $collection->max()) {
+            $num1 = $base - mt_rand(1, $limits[$base]);
+            $num2 = $base - mt_rand(1, $limits[$base]);
+        } else {
+
+            $num1 = $base + mt_rand(1, $limits[$base]) * (mt_rand(0, 1) ? -1 : 1);
+            $num2 = $base + mt_rand(1, $limits[$base]) * (mt_rand(0, 1) ? -1 : 1);
+        }
+
+
+        return (object)[
+            'num1' => $num1,
+            'num2' => $num2,
+        ];
     }
+
 
     public function get(int $numItems): array
     {
-        //ระบุจำนวนหลักตามระดับ
-        $this->defineNumber();
-        //สุ่มเลขตามระดับความยาก
+
         $quizzes = [];
         for ($i = 0; $i < $numItems; $i++) {
-            $quizzes[] = $this->rand();
+            $quizzes[] = $this->getQuiz();
         }
-        //ส่งออกในรูปอะเรย์
+        // return array_map(fn ($x) => $operations[$this->difficulty], range(1, $numItems));
         return $quizzes;
     }
 }
+
