@@ -20,12 +20,14 @@ class MultiplicationVerticalCross extends Component
     public $blank;
     public $showSolution;
     public $item;
+    public $showLabel;
 
-    public function __construct(int $num1, int $num2, bool $showSolution,int $item)
+    public function __construct(int $num1, int $num2, bool $showSolution,int $item,bool $showLabel=true)
     {
         //
         $this->showSolution = $showSolution;
         $this->item = $item;
+        $this->showLabel = $showLabel;
         $product = $num1 * $num2;
         $maxNumber = max($num1, $num2);
         $maxNumberDigits = strlen($maxNumber . '');

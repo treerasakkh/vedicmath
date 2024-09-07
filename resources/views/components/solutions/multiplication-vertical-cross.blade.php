@@ -1,7 +1,8 @@
 <x-frame class="p-16">
     <x-item class="absolute top-4 left-4">{{ $item }}</x-item>
-    <div class="absolute left-6 top-12 text-[12px] text-gray-600 w-16">(แนวตั้งและแนวไขว้)</div>
-
+    @if ($showLabel)
+        <div class="absolute left-6 top-12 text-[12px] text-gray-600 w-16">(แนวตั้งและแนวไขว้)</div>
+    @endif
     <table class="mt-8">
         <tr>{!! $row1 !!}</tr>
         <tr class="border-b border-b-gray-400">{!! $row2 !!}</tr>

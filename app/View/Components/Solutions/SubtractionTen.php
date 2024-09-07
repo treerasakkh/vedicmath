@@ -19,15 +19,17 @@ class SubtractionTen extends Component
     public $question;
     public $item;
     public $numDashes = 0;
+    public $showLabel;
     /**
      * Create a new component instance.
      */
-    public function __construct(int $num1, int $num2, bool $showSolution,int $item)
+    public function __construct(int $num1, int $num2, bool $showSolution,int $item,bool $showLabel=true)
      {
 
         $this->item = $item;
         $product = $num1 - $num2;
         $this->showSolution = $showSolution;
+        $this->showLabel = $showLabel;
         $fnum1 =number_format($num1);
         $fnum2 =number_format($num2);
         $this->question = "{$fnum1} - {$fnum2}";

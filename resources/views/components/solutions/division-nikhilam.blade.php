@@ -2,7 +2,9 @@
     <x-item class="absolute top-4 left-6">{{ $item ?? 0 }}</x-item>
     <x-question class="absolute top-4 left-14">
         {!! $question ?? 'question?' !!}
-        <span class="text-xs text-gray-400">(หารโดยใช้วิธีนิขิลัม)</span>
+        @if ($showLabel)
+            <span class="text-xs text-gray-400">(หารโดยใช้วิธีนิขิลัม)</span>
+        @endif
     </x-question>
 
     @if ($showSolution)
@@ -17,6 +19,6 @@
 
         <x-solutions.division-answer :product="$product" :remainder="$remainder" />
     @else
-        <x-solutions.division-blank-table :num-rows="$isM13 ? 30 : 15" :num-columns="9" />
+        <x-solutions.division-blank-table :num-rows="$isM13 ? 15 : 15" :num-columns="9" />
     @endif
 </div>

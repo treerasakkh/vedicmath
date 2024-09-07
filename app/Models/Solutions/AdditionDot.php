@@ -149,7 +149,7 @@ class AdditionDot extends SolutionAbstract
         $this->maxDigits = $max;
         $this->totalNumber = $totalNumber;
 
-        $this->randDigits = mt_rand($min, $max);
+        // $this->randDigits = mt_rand($min, $max);
     }
 
 
@@ -193,7 +193,7 @@ class AdditionDot extends SolutionAbstract
     {
         do {
             $numbers = array_map(function () {
-                $number = $this->generateRandomNumber($this->randDigits, $this->fixNumbers);
+                $number = $this->generateRandomNumber(mt_rand($this->minDigits, $this->maxDigits), $this->fixNumbers);
                 return $this->decimalPlaces === 0 ? $number : $number / 10 ** mt_rand(1, $this->decimalPlaces);
             }, range(0, $this->totalNumber - 1));
 

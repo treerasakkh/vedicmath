@@ -4,7 +4,7 @@
             การบวกลบโดยใช้วิธีนิขิลัม ระดับ{{ $difficultyTitle }}</div>
         <div class="grid grid-cols-2 gap-8">
             @foreach ($quizzes as $quiz )
-            <x-solutions.subtraction-nikilam :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="false" :item="$loop->iteration" />
+            <x-solutions.subtraction-nikhilam :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="false" :item="$loop->iteration" />
                 
             @endforeach
         </div>
@@ -15,7 +15,7 @@
             การบวกลบโดยใช้วิธีนิขิลัม ระดับ{{ $difficultyTitle }}</div>
         <div class="grid grid-cols-2 gap-8">
             @foreach ($quizzes as $quiz )
-            <x-solutions.subtraction-nikilam :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="true" :item="$loop->iteration" />
+            <x-solutions.subtraction-nikhilam :num1="$quiz->num1" :num2="$quiz->num2" :show-solution="true" :item="$loop->iteration" />
                 
             @endforeach
         </div>

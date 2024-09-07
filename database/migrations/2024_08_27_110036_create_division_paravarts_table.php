@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Difficulty;
+use App\Models\Level;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Level;
-use App\Models\Difficulty;
 
 return new class extends Migration
 {
@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('addition_books', function (Blueprint $table) {
+        Schema::create('division_paravarts', function (Blueprint $table) {
             $table->id();
-            $table->string('numbers')->unique();
+            $table->integer('number1');
+            $table->integer('number2');
             $table->foreignIdFor(Level::class)->constrained();
             $table->foreignIdFor(Difficulty::class)->constrained();
             $table->timestamps();
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('addition_books');
+        Schema::dropIfExists('division_paravarts');
     }
 };

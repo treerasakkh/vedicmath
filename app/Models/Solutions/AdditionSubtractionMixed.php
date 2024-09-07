@@ -86,7 +86,7 @@ class AdditionSubtractionMixed extends SolutionAbstract
         $sum += 2 * $numbers[$negativeIndex]; // Correct the sum by adding the negative twice
 
         // Adjust the sum to be positive if necessary
-        while ($sum <= 0) {
+        while ($sum <= 0 || array_filter($numbers,fn($v)=>$v<0)==[]) {
             $adjustmentIndex = rand(1, 3);
             if ($numbers[$adjustmentIndex] < 0) {
                 $sum += -2 * $numbers[$adjustmentIndex]; // Revert the negative effect

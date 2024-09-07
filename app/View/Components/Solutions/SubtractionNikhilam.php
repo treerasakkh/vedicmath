@@ -7,27 +7,28 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class SubtractionNikilam extends Component
+class SubtractionNikhilam extends Component
 {
     use EasyArray;
 
     /**
      * Create a new component instance.
      */
-    public $row1;
-    public $row2;
-    public $row3;
-    public $row4;
-    public $blank;
-    public $showSolution;
-    public $question;
-    public $item;
+    public string $row1;
+    public string $row2;
+    public string $row3;
+    public string $row4;
+    public string $blank;
+    public bool $showSolution;
+    public bool $showLabel;
+    public string $question;
+    public int $item;
 
-    public function __construct(int $num1, int $num2, bool $showSolution,int $item)
+    public function __construct(int $num1, int $num2, bool $showSolution, int $item, bool $showLabel=true)
     {
-
         $this->item = $item;
         $this->showSolution = $showSolution;
+        $this->showLabel = $showLabel;
         $this->question = number_format($num1).' - '.number_format($num2);
 
         $product = $num1 - $num2;

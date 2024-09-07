@@ -25,11 +25,13 @@ class DivisionNikhilam extends Component
     public string $question;
     public bool $showSolution;
     public bool $isMoreThreeTables = false;
+    public bool $isThreeTables = false;
     public bool $isM13;
+    public bool $showLabel;
     /**
      * Create a new component instance.
      */
-    public function __construct(int $dividend, int $divisor, int $item, bool $showSolution,bool $isM13 = false)
+    public function __construct(int $dividend, int $divisor, int $item, bool $showSolution,bool $isM13 = false,bool $showLabel=true)
     {
         $this->dividend = $dividend;
         $this->divisor = $divisor;
@@ -40,11 +42,14 @@ class DivisionNikhilam extends Component
         $this->showSolution = $showSolution;
         $this->solutions =  $this->generateSolutions($dividend,$divisor);
         $this->isM13 = $isM13;
+        $this->showLabel=$showLabel;
 
         if (count($this->solutions)==3 && $divisor<=$this->solutions[2]->remainder) {
             $this->isMoreThreeTables = true;
         }
 
+        if(count($this->solutions)===3) $this->isThreeTables=true;
+        
         $this->arrProducts = array_map(fn ($solution) => $solution->arrProduct, $this->solutions);
     }
 

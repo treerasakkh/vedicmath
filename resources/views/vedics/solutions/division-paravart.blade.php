@@ -1,5 +1,4 @@
 <x-book>
-
     <x-page>
         <div class="text-center mt-8 mb-4 font-semibold">ข้อสอบแบบวิธีทำระดับชั้น {{ $levelTitle }} เรื่อง
             การหารโดยใช้วิธีพาราวารท ระดับ{{ $difficultyTitle }}</div>

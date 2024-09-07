@@ -25,16 +25,18 @@ class DivisionParavart extends Component
     public int $numLeftDividends = 0;
     public int $product;
     public int $remainder;
-    public bool $isMore ;
+    public bool $isMore;
+    public bool $showLabel;
     /**
      * Create a new component instance.
      */
-    public function __construct(int $dividend, int $divisor, int $item, bool $showSolution, bool $isM13 = false)
+    public function __construct(int $dividend, int $divisor, int $item, bool $showSolution, bool $isM13 = false, bool $showLabel=true)
     {
         $this->dividend = $dividend;
         $this->divisor = $divisor;
         $this->item = $item;
         $this->showSolution = $showSolution;
+        $this->showLabel=$showLabel;
         $this->isM13 = $isM13;
         $this->tables = [];
         $this->product = intdiv($dividend, $divisor);
@@ -52,16 +54,16 @@ class DivisionParavart extends Component
             $this->tables[] = $table;
             $continue = $table->remainder >= $divisor || $table->remainder < 0;
 
-            if($continue) {
+            if ($continue) {
                 $dividend = $table->remainder;
-            }else{
+            } else {
                 break;
             }
         }
 
-        if($i===3){
+        if ($i > 1) {
             $this->isMore = true;
-        }else{
+        } else {
             $this->isMore = false;
         }
     }
@@ -138,14 +140,14 @@ class DivisionParavart extends Component
 
         $remainder = $this->getRemainder($arrRemainder);
         $product = $this->getRemainder($arrProduct);
-  
+
         return (object)[
             'table' => $table,
-            'tableFormat'=>$this->formatTable($table),
-            'product'=>$product,
+            'tableFormat' => $this->formatTable($table),
+            'product' => $product,
             'remainder' => $remainder,
-            'startPosition'=>$startPosition,
-            'numLeftDividend'=>$numLeftDividends,
+            'startPosition' => $startPosition,
+            'numLeftDividend' => $numLeftDividends,
         ];
     }
 
@@ -174,7 +176,7 @@ class DivisionParavart extends Component
         $numRows = count($table);
         $numColumns = count($table[0]);
 
-        for ($row = 1; $row < $numRows; $row++) {
+        for ($row = 0; $row < $numRows; $row++) {
             for ($col = 1; $col < $numColumns; $col++) {
                 $value = $table[$row][$col];
                 if (is_numeric($value)) {
@@ -223,7 +225,7 @@ class DivisionParavart extends Component
     protected function createFirstRow(array $table, int $dividend, int $divisor): array
     {
         if ($dividend < 0) {
-            $arrDividend =  array_merge([-1], $this->make(10**$this->getLength(abs($dividend))+$dividend)->get());
+            $arrDividend =  array_merge([-1], $this->make(10 ** $this->getLength(abs($dividend)) + $dividend)->get());
         } else {
             $arrDividend = $this->make($dividend)->get();
         }

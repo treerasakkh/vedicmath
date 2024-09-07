@@ -23,14 +23,16 @@ class MultiplicationAligned extends Component
 
     public $item;
     public $spaceWide;
+    public $showLabel;
 
-    public function __construct(int $num1, int $num2, bool $showSolution, int $item, bool $spaceWide = false)
+    public function __construct(int $num1, int $num2, bool $showSolution, int $item, bool $spaceWide = false,bool $showLabel=true)
     {
         //
 
         $this->item = $item;
         $this->showSolution = $showSolution;
         $this->spaceWide = $spaceWide;
+        $this->showLabel = $showLabel;
         $product = $num1 * $num2;
 
         $maxNumber = max($num1, $num2);

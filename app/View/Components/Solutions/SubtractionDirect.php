@@ -22,11 +22,13 @@ class SubtractionDirect extends Component
     public $question;
     public $item;
     public $numNegatives = 0;
+    public $showLabel;
 
-    public function __construct(int $num1, int $num2, bool $showSolution, int $item)
+    public function __construct(int $num1, int $num2, bool $showSolution, int $item,bool $showLabel=true)
     {
 
         $this->showSolution = $showSolution;
+        $this->showLabel = $showLabel;
         $this->item = $item;
         $this->question = number_format($num1) . " - " . number_format($num2);
 

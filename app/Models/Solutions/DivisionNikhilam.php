@@ -3,6 +3,7 @@
 namespace App\Models\Solutions;
 
 use App\Traits\Randoms;
+use App\View\Components\Solutions\DivisionNikhilam as DivisionNikhilamSolution;
 use stdClass;
 
 class DivisionNikhilam extends SolutionAbstract
@@ -95,8 +96,21 @@ class DivisionNikhilam extends SolutionAbstract
         //สุ่มเลขตามระดับความยาก
         $quizzes = [];
         for ($i = 0; $i < $numItems; $i++) {
-            $quizzes[] = $this->rand();
+            $quiz = $this->rand();
+            $divNikhilam = new DivisionNikhilamSolution($quiz->num1, $quiz->num2,0,false);
+            $quiz->more = $divNikhilam->isMoreThreeTables;
+            $quiz->three=$divNikhilam->isThreeTables;
+
+            if($i%4>1){
+                if($quiz->three){
+                    $i--;
+                    continue;
+                }
+            }
+
+            $quizzes[] = $quiz;
         }
+        // dd($quizzes);
         //ส่งออกในรูปอะเรย์
         return $quizzes;
     }

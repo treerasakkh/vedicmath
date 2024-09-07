@@ -20,11 +20,15 @@ class SubtractionTenNine extends Component
         public $showSolution;
         public $question;
         public $item=0;
-        public function __construct(int $num1,int $num2,bool $showSolution,int $item)
+        public $showLabel;
+
+
+        public function __construct(int $num1,int $num2,bool $showSolution,int $item,bool $showLabel=true)
         {
 
             $product = $num1 - $num2;
             $this->showSolution = $showSolution;
+            $this->showLabel = $showLabel;
             $this->item = $item;
             $fNum1 = number_format($num1);
             $fNum2 = number_format($num2);

@@ -45,16 +45,19 @@ class MultiplicationBaseShift extends Component
     protected $isDiffDigitsOne;
     public int $base = 0;
     public string $expand;
+    public bool $showLabel;
+
     /**
      * Create a new component instance.
      */
-    public function __construct(int $num1, int $num2, bool $showSolution, int $item)
+    public function __construct(int $num1, int $num2, bool $showSolution, int $item,bool $showLabel=true)
     {
         //
         $this->item = $item;
         $this->num1 = $num1;
         $this->num2 = $num2;
         $this->showSolution = $showSolution;
+        $this->showLabel = $showLabel;
         $this->product = $num1 * $num2;
 
         $isEqualDigits = $this->isEqualDigits($num1, $num2);

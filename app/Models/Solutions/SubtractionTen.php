@@ -7,7 +7,7 @@ use App\View\Components\Solutions\SubtractionTen as SubTen;
 
 class SubtractionTen extends SolutionAbstract
 {
-    public function __construct($level, $difficulty)
+    public function __construct(string $level, string $difficulty)
     {
         $this->level = $level;
         $this->difficulty = $difficulty;

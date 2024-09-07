@@ -1,5 +1,5 @@
 <x-book>
-    @unless ($levelTitle === 'ม.1-3')
+    {{-- @unless ($levelTitle === 'ม.1-3') --}}
         {{-- ข้อสอบ --}}
         <x-page>
             <x-solutions.division-quiz-section :level-title="$levelTitle" :difficulty-title="$difficultyTitle" :quizzes="$quizzes" :show-solution="false" />
@@ -8,7 +8,7 @@
         <x-page>
             <x-solutions.division-quiz-section :level-title="$levelTitle" :difficulty-title="$difficultyTitle" :quizzes="$quizzes" :show-solution="true" />
         </x-page>
-    @else
+    {{-- @else
         @php
             [$set1, $set2] = array_chunk($quizzes, 2);
         @endphp
@@ -28,5 +28,5 @@
         <x-page>
             <x-solutions.division-quiz-section :level-title="$levelTitle" :difficulty-title="$difficultyTitle" :quizzes="$set2" :show-solution="true" :begin-item="2" />
         </x-page>
-    @endunless
+    @endunless --}}
 </x-book>
